@@ -59,6 +59,18 @@ struct nbt_tag_t {
       int64_t* value;
       size_t size;
     } tag_long_array;
+    struct {
+      float* value;
+      size_t size;
+    } tag_float_array;
+    struct {
+      double* value;
+      size_t size;
+    } tag_double_array;
+    struct {
+      nbt_tag_t** value;
+      size_t size;
+    } tag_string_array;
   };
 
 };
@@ -129,6 +141,10 @@ typedef enum {
   NBT_TYPE_COMPOUND,
   NBT_TYPE_INT_ARRAY,
   NBT_TYPE_LONG_ARRAY,
+  NBT_TYPE_SHORT_ARRAY,
+  NBT_TYPE_FLOAT_ARRAY,
+  NBT_TYPE_DOUBLE_ARRAY,
+  NBT_TYPE_STRING_ARRAY,
   NBT_NO_OVERRIDE // Only used internally.
 } nbt_tag_type_t;
 ```
@@ -221,10 +237,15 @@ nbt_tag_t* nbt_new_tag_float(float value);
 nbt_tag_t* nbt_new_tag_double(double value);
 nbt_tag_t* nbt_new_tag_byte_array(int8_t* value, size_t size);
 nbt_tag_t* nbt_new_tag_string(const char* value, size_t size);
+nbt_tag_t* nbt_new_tag_string0(const char* value, size_t size);
 nbt_tag_t* nbt_new_tag_list(nbt_tag_type_t type);
 nbt_tag_t* nbt_new_tag_compound(void);
 nbt_tag_t* nbt_new_tag_int_array(int32_t* value, size_t size);
 nbt_tag_t* nbt_new_tag_long_array(int64_t* value, size_t size);
+nbt_tag_t* nbt_new_tag_short_array(int16_t* value, size_t size);
+nbt_tag_t* nbt_new_tag_float_array(float* value, size_t size);
+nbt_tag_t* nbt_new_tag_double_array(double* value, size_t size);
+nbt_tag_t* nbt_new_tag_string_array(char** value, size_t size);
 ```
 
 #### Description

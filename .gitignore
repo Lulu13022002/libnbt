@@ -2,3 +2,8 @@ test
 write_test_raw.nbt
 write_test_zlib.nbt
 write_test_gzip.nbt
+libnbt.cbp
+obj/*
+bin/*
+libnbt.depend
+libnbt.layout
