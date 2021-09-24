@@ -9,6 +9,7 @@ libnbt can:
 * Create and modify in-memory NBT structures.
 * Write in-memory NBT structures, both uncompressed and compressed (supporting both zlib and Gzip as with reading).
 * Use the new long array tag added in Minecraft 1.12.
+* Use the new float/double/string array tag added recently in NMSC.
 
 libnbt does yet not provide support for:
 * Reading .mca files used for storing regions.
