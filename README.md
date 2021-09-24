@@ -12,19 +12,13 @@ libnbt can:
 * Use the new float/double/string array tag added recently in NMSC.
 
 libnbt does yet not provide support for:
-* Reading .mca files used for storing regions.
+* Reading .mca/.mcr files used for storing regions.
 * Working with the SNBT format.
 
 These are likely to be added in the future.
 
 ## Usage Instructions
 libnbt is dependent on either [zlib](https://www.zlib.net/) or [miniz](https://github.com/richgel999/miniz). A copy of miniz is included in this repository.
-
-To use this file, you need to put this:  
-```c
-#define NBT_IMPLEMENTATION
-```
-in *one* C/C++ source file before `#include`ing `nbt.h`. You may find that creating a dedicated source file with just this `#define` and the `#include` may be easiest.
 
 If your program does not already use zlib or miniz, you will also need to compile `miniz.c`.
 
