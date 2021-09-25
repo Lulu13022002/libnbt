@@ -60,6 +60,10 @@ struct nbt_tag_t {
       size_t size;
     } tag_long_array;
     struct {
+      int16_t* value;
+      size_t size;
+    } tag_short_array;
+    struct {
       float* value;
       size_t size;
     } tag_float_array;
@@ -143,6 +147,7 @@ typedef enum {
   NBT_TYPE_LONG_ARRAY,
   NBT_TYPE_SHORT_ARRAY,
   NBT_TYPE_FLOAT_ARRAY,
+  NBT_TYPE_SHORT_ARRAY,
   NBT_TYPE_DOUBLE_ARRAY,
   NBT_TYPE_STRING_ARRAY,
   NBT_NO_OVERRIDE // Only used internally.
@@ -236,7 +241,7 @@ nbt_tag_t* nbt_new_tag_long(int64_t value);
 nbt_tag_t* nbt_new_tag_float(float value);
 nbt_tag_t* nbt_new_tag_double(double value);
 nbt_tag_t* nbt_new_tag_byte_array(int8_t* value, size_t size);
-nbt_tag_t* nbt_new_tag_string(const char* value, size_t size);
+nbt_tag_t* nbt_new_tag_string(const char* value);
 nbt_tag_t* nbt_new_tag_string0(const char* value, size_t size);
 nbt_tag_t* nbt_new_tag_list(nbt_tag_type_t type);
 nbt_tag_t* nbt_new_tag_compound(void);
@@ -255,7 +260,7 @@ The newly created type will have no name. Use `nbt_tag_set_name` to set its name
 #### Parameters (`byte`, `short`, `int`, `long`, `float`, `double`)
 * `value`: The value with which to initialise the tag.
 
-#### Parameters (`byte_array`, `string`, `int_array`, `long_array`)
+#### Parameters (`byte_array`, `string`, `int_array`, `long_array`, `short_array`, `float_array`, `double_array`, `string_array`)
 * `value`: The array of values with which to initialise the tag. This is copied, so it is safe to modify or free the value passed to this parameter later. In the case of `string`, the copy will be null-terminated for convenience, but embedded nulls may be present.
 * `size`: The size of the array of values passed to `value`, in elements.
 
@@ -272,7 +277,25 @@ The newly created tag. This value is dynamically allocated and should be freed u
 
 #### Definition
 ```c
-void nbt_set_tag_name(nbt_tag_t* tag, const char* name, size_t size);
+void nbt_set_tag_name(nbt_tag_t* tag, const char* name);
+```
+
+#### Description
+Sets the name of the tag.
+
+#### Parameters
+* `tag`: The tag to set the name of. This is copied, so it is safe to modify or free the value passed to this parameter later.
+* `name`: The new name of the tag.
+* By default the size of the string `name` without \0 end caracter is taken.
+
+#### Return Value
+None.
+
+### `nbt_tag_set_name0`
+
+#### Definition
+```c
+void nbt_set_tag_name0(nbt_tag_t* tag, const char* name, size_t size);
 ```
 
 #### Description
@@ -373,3 +396,123 @@ In the case of list and compound tags, this function is called recursively on al
 
 #### Return Value
 None.
+
+### `nbt_unpack_8bits`
+
+#### Definition
+```c
+bool* nbt_unpack_8bits(int8_t value, int size);
+```
+
+#### Description
+Unpack 8 bits to an array of boolean.
+Order is based on your system (little/big endian)
+if you use the hardware acceleration or multiply bit macro.
+
+#### Parameters
+* `value`: The packed value to transform.
+* `size`: The number of bit used during the process.
+The size cannot be greater than 8 bits.
+
+#### Return Value
+The unpacked value.
+
+### `nbt_unpack_16bits`
+
+#### Definition
+```c
+bool* nbt_unpack_16bits(int16_t value, int size);
+```
+
+#### Description
+Unpack 16 bits to an array of boolean.
+Order is based on your system (little/big endian)
+if you use the hardware acceleration or multiply bit macro.
+
+#### Parameters
+* `value`: The packed value to transform.
+* `size`: The number of bit used during the process.
+The size cannot be greater than 16 bits.
+
+#### Return Value
+The unpacked value.
+
+### `nbt_unpack_32bits`
+
+#### Definition
+```c
+bool* nbt_unpack_32bits(int32_t value, int size);
+```
+
+#### Description
+Unpack 32 bits to an array of boolean.
+Order is based on your system (little/big endian)
+if you use the hardware acceleration or multiply bit macro.
+
+#### Parameters
+* `value`: The packed value to transform.
+* `size`: The number of bit used during the process.
+The size cannot be greater than 32 bits.
+
+#### Return Value
+The unpacked value.
+
+### `nbt_pack_8bits`
+
+#### Definition
+```c
+int8_t nbt_pack_8bits(bool* array, uint8_t size);
+```
+
+#### Description
+Pack 8 bits from a boolean array to a packed byte.
+Order is based on your system (little/big endian)
+if you use the hardware acceleration or multiply bit macro.
+
+#### Parameters
+* `array`: The unpacked array to transform.
+* `size`: The number elements in this array used during the process.
+The size cannot be greater than 8.
+
+#### Return Value
+The packed byte.
+
+### `nbt_pack_16bits`
+
+#### Definition
+```c
+int16_t nbt_pack_16bits(bool* array, uint16_t size);
+```
+
+#### Description
+Pack 16 bits from a boolean array to a int16_t.
+Order is based on your system (little/big endian)
+if you use the hardware acceleration or multiply bit macro.
+
+#### Parameters
+* `array`: The unpacked array to transform.
+* `size`: The number elements in this array used during the process.
+The size cannot be greater than 16.
+
+#### Return Value
+The packed value.
+
+### `nbt_pack_32bits`
+
+#### Definition
+```c
+int16_t nbt_pack_32bits(bool* array, uint32_t size);
+```
+
+#### Description
+Pack 32 bits from a boolean array to a int32_t.
+Order is based on your system (little/big endian)
+if you use the hardware acceleration or multiply bit macro.
+
+#### Parameters
+* `array`: The unpacked array to transform.
+* `size`: The number elements in this array used during the process.
+The size cannot be greater than 32.
+
+#### Return Value
+The packed value.

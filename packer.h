@@ -13,8 +13,6 @@ extern "C" {
 
 #define DllImport __declspec(dllimport)
 
-DllImport bool nbt_detect_bmi2();
-
 DllImport bool* nbt_unpack_8bits(int8_t value, int size);
 DllImport bool* nbt_unpack_16bits(int16_t value, int size);
 DllImport bool* nbt_unpack_32bits(int32_t value, int size);
