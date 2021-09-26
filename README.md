@@ -33,7 +33,7 @@ When you use hardware acceleration with BMI2, you need to set `-mbmi2` or `-marc
 Documentation for the library is available [here](doc.md).
 
 ## Licence
-libnbt  
+libnbt\
 Written in 2019 by IDidMakeThat
 
 To the extent possible under law, the author(s) have dedicated all copyright

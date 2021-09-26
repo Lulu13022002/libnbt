@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define NBT_IMPLEMENTATION
+#include <inttypes.h>
 #include "nbt.h"
 
 static size_t reader_read(void* userdata, uint8_t* data, size_t size) {
@@ -25,11 +25,11 @@ static void print_nbt_tree(nbt_tag_t* tag, int indentation) {
       break;
     }
     case NBT_TYPE_BYTE: {
-      printf("%hhd", tag->tag_byte.value);
+      printf("%" PRId8, tag->tag_byte.value);
       break;
     }
     case NBT_TYPE_SHORT: {
-      printf("%hd", tag->tag_short.value);
+      printf("%" PRId16, tag->tag_short.value);
       break;
     }
     case NBT_TYPE_INT: {
@@ -37,11 +37,11 @@ static void print_nbt_tree(nbt_tag_t* tag, int indentation) {
       break;
     }
     case NBT_TYPE_LONG: {
-      printf("%ld", tag->tag_long.value);
+      printf("%" PRId64, tag->tag_long.value);
       break;
     }
     case NBT_TYPE_FLOAT: {
-      printf("%f", tag->tag_float.value);
+      printf("%.6f", tag->tag_float.value);
       break;
     }
     case NBT_TYPE_DOUBLE: {
@@ -49,10 +49,9 @@ static void print_nbt_tree(nbt_tag_t* tag, int indentation) {
       break;
     }
     case NBT_TYPE_BYTE_ARRAY: {
-      printf("[byte array]");
-      break;
+      printf("[byte array]\n");
       for (size_t i = 0; i < tag->tag_byte_array.size; i++) {
-        printf("%hhd ", tag->tag_byte_array.value[i]);
+        printf("%" PRId8 " ", tag->tag_byte_array.value[i]);
       }
       break;
     }
@@ -75,18 +74,44 @@ static void print_nbt_tree(nbt_tag_t* tag, int indentation) {
       break;
     }
     case NBT_TYPE_INT_ARRAY: {
-      printf("[int array]");
-      break;
+      printf("[int array]\n");
       for (size_t i = 0; i < tag->tag_int_array.size; i++) {
         printf("%d ", tag->tag_int_array.value[i]);
       }
       break;
     }
     case NBT_TYPE_LONG_ARRAY: {
-      printf("[long array]");
-      break;
+      printf("[long array]\n");
       for (size_t i = 0; i < tag->tag_long_array.size; i++) {
-        printf("%ld ", tag->tag_long_array.value[i]);
+        printf("%" PRId64 " ", tag->tag_long_array.value[i]);
+      }
+      break;
+    }
+    case NBT_TYPE_SHORT_ARRAY: {
+      printf("[short array]\n");
+      for (size_t i = 0; i < tag->tag_short_array.size; i++) {
+        printf("%" PRId16 " ", tag->tag_short_array.value[i]);
+      }
+      break;
+    }
+    case NBT_TYPE_FLOAT_ARRAY: {
+      printf("[float array]\n");
+      for (size_t i = 0; i < tag->tag_float_array.size; i++) {
+        printf("%l.6f ", tag->tag_float_array.value[i]);
+      }
+      break;
+    }
+    case NBT_TYPE_DOUBLE_ARRAY: {
+      printf("[double array]\n");
+      for (size_t i = 0; i < tag->tag_double_array.size; i++) {
+        printf("%lf ", tag->tag_double_array.value[i]);
+      }
+      break;
+    }
+    case NBT_TYPE_STRING_ARRAY: {
+      printf("[string array]\n");
+      for (size_t i = 0; i < tag->tag_string_array.size; i++) {
+        printf("%s ", tag->tag_string_array.value[i]->tag_string.value);
       }
       break;
     }
@@ -141,16 +166,16 @@ int main() {
   printf("Reading Example 2:\n");
 
   nbt_tag_t* tag_level = nbt_new_tag_compound();
-  nbt_set_tag_name(tag_level, "Level", strlen("Level"));
+  nbt_set_tag_name0(tag_level, "Level", strlen("Level"));
 
   nbt_tag_t* tag_longtest = nbt_new_tag_long(9223372036854775807);
-  nbt_set_tag_name(tag_longtest, "longTest", strlen("longTest"));
+  nbt_set_tag_name(tag_longtest, "longTest");
 
   nbt_tag_t* tag_shorttest = nbt_new_tag_short(32767);
-  nbt_set_tag_name(tag_shorttest, "shortTest", strlen("shortTest"));
+  nbt_set_tag_name(tag_shorttest, "shortTest");
 
-  nbt_tag_t* tag_stringtest = nbt_new_tag_string("HELLO WORLD THIS IS A TEST STRING ÅÄÖ!", strlen("HELLO WORLD THIS IS A TEST STRING ÅÄÖ!"));
-  nbt_set_tag_name(tag_stringtest, "stringTest", strlen("stringTest"));
+  nbt_tag_t* tag_stringtest = nbt_new_tag_string("HELLO WORLD THIS IS A TEST STRING ÅÄÖ!");
+  nbt_set_tag_name(tag_stringtest, "stringTest");
 
   nbt_tag_compound_append(tag_level, tag_longtest);
   nbt_tag_compound_append(tag_level, tag_shorttest);
