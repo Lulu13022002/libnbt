@@ -397,122 +397,50 @@ In the case of list and compound tags, this function is called recursively on al
 #### Return Value
 None.
 
-### `nbt_unpack_8bits`
-
-#### Definition
-```c
-bool* nbt_unpack_8bits(int8_t value, int size);
-```
-
-#### Description
-Unpack 8 bits to an array of boolean.
-Order is based on your system (little/big endian)
-if you use the hardware acceleration or multiply bit macro.
-
-#### Parameters
-* `value`: The packed value to transform.
-* `size`: The number of bit used during the process.
-The size cannot be greater than 8 bits.
-
-#### Return Value
-The unpacked value.
-
-### `nbt_unpack_16bits`
-
-#### Definition
-```c
-bool* nbt_unpack_16bits(int16_t value, int size);
-```
-
-#### Description
-Unpack 16 bits to an array of boolean.
-Order is based on your system (little/big endian)
-if you use the hardware acceleration or multiply bit macro.
-
-#### Parameters
-* `value`: The packed value to transform.
-* `size`: The number of bit used during the process.
-The size cannot be greater than 16 bits.
-
-#### Return Value
-The unpacked value.
-
-### `nbt_unpack_32bits`
-
-#### Definition
-```c
-bool* nbt_unpack_32bits(int32_t value, int size);
-```
-
-#### Description
-Unpack 32 bits to an array of boolean.
-Order is based on your system (little/big endian)
-if you use the hardware acceleration or multiply bit macro.
-
-#### Parameters
-* `value`: The packed value to transform.
-* `size`: The number of bit used during the process.
-The size cannot be greater than 32 bits.
-
-#### Return Value
-The unpacked value.
-
-### `nbt_pack_8bits`
+### `nbt_pack_xxbits` (where `xx` is a number of bits)
 
 #### Definition
 ```c
 int8_t nbt_pack_8bits(bool* array, uint8_t size);
-```
-
-#### Description
-Pack 8 bits from a boolean array to a packed byte.
-Order is based on your system (little/big endian)
-if you use the hardware acceleration or multiply bit macro.
-
-#### Parameters
-* `array`: The unpacked array to transform.
-* `size`: The number elements in this array used during the process.
-The size cannot be greater than 8.
-
-#### Return Value
-The packed byte.
-
-### `nbt_pack_16bits`
-
-#### Definition
-```c
 int16_t nbt_pack_16bits(bool* array, uint16_t size);
+int32_t nbt_pack_32bits(bool* array, uint32_t size);
 ```
 
 #### Description
-Pack 16 bits from a boolean array to a int16_t.
+Pack a multiple of 8 bits from a boolean array to its integer equivalent.
 Order is based on your system (little/big endian)
-if you use the hardware acceleration or multiply bit macro.
+when you use the hardware acceleration or multiply bit macro.
 
-#### Parameters
+#### Parameters (`bool*`)
 * `array`: The unpacked array to transform.
-* `size`: The number elements in this array used during the process.
-The size cannot be greater than 16.
+
+#### Parameters (`uint8_t`, `uint16_t`, `uint32_t`)
+* `size`: The number of element in this array used during the process.
+The size cannot be greater than the number of bits in the returned integer (8/16/32).
 
 #### Return Value
-The packed value.
+The packed integer.
 
-### `nbt_pack_32bits`
+### `nbt_unpack_xxbits` (where `xx` is a number of bits)
 
 #### Definition
 ```c
-int16_t nbt_pack_32bits(bool* array, uint32_t size);
+bool* nbt_unpack_8bits(int8_t value, int size);
+bool* nbt_unpack_16bits(int16_t value, int size);
+bool* nbt_unpack_32bits(int32_t value, int size);
 ```
 
 #### Description
-Pack 32 bits from a boolean array to a int32_t.
+Unpack a multiple of 8 bits from an integer to a boolean array.
 Order is based on your system (little/big endian)
-if you use the hardware acceleration or multiply bit macro.
+when you use the hardware acceleration or multiply bit macro.
 
-#### Parameters
-* `array`: The unpacked array to transform.
-* `size`: The number elements in this array used during the process.
-The size cannot be greater than 32.
+#### Parameters (`int8_t`, `int16_t`, `int32_t`)
+* `value`: The packed integer to transform.
+
+#### Parameters (`int`)
+* `size`: The number of element in this array used during the process.
+The size cannot be greater than the number of bits of `value` (8/16/32).
 
 #### Return Value
-The packed value.
+The unpacked boolean array.
